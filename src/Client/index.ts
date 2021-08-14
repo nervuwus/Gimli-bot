@@ -1,5 +1,5 @@
 import { Client, Collection } from 'discord.js';
-import { connect } from "mongoose";
+import { connectDatabase } from "../Database/ConnectDatabase";
 import { readdirSync } from 'fs';
 import { Command, Event, Config } from "../Interfaces";
 import ConfigJson from "../config.json";
@@ -13,12 +13,8 @@ class ExtendedClient extends Client {
     public config: Config = ConfigJson;
 
     public async init() {
+        await connectDatabase()
         this.login(this.config.token);
-        connect(this.config.mongoURI, {
-            useUnifiedTopology: true,
-            useFindAndModify: true,
-            useNewUrlParser: true
-        });
 
         const commandPath = path.join(__dirname, "..", "Commands");
 
@@ -48,6 +44,7 @@ class ExtendedClient extends Client {
             console.log(`event chargé: ${event.name}`);
             this.on(event.name, event.run.bind(null, this))
         })
+        //#endregion Command handler
     }
     
 }
