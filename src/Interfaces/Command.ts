@@ -11,5 +11,6 @@ export interface Command {
     description?: string;
     aliases?: Array<string>;
     syntax: string;
+    categorie: string;
     run: Run;
 }
