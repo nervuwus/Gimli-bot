@@ -1,6 +1,6 @@
 import { Command } from "../../Interfaces";
 import { MessageEmbed } from "discord.js";
-import * as nodemon from "nodemon";
+import { restart } from "nodemon";
 
 export const command: Command = {
     name: "restart",
@@ -9,7 +9,7 @@ export const command: Command = {
     syntax: "restart",
     categorie: "Owner",
     run: async (client, message, args) => {
-        if (message.author.id === "422848361062858752") nodemon.emit("restart");
+        if (message.author.id === "422848361062858752") restart()
         else {
             const notMeEmbed = new MessageEmbed()
 

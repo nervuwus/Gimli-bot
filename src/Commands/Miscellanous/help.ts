@@ -24,9 +24,9 @@ export const command: Command = {
                 .setDescription(`Une commande t'intéresse ? utilise : ${Formatters.inlineCode(`${serverPrefix.prefix}help <commmand_name>`)}`)
                 .setFooter("message d'aide envoyé", message.author.displayAvatarURL({ dynamic: true }))
 
-            for (const folder of folderList) (
+            for (const folder of folderList) {
                 helpList.addField(folder.toString(), client.commands.filter(cat => cat.categorie === folder).map(cmd => Formatters.inlineCode(cmd.name)).join(", "))
-            )
+            }
 
             message.channel.send({ embeds: [helpList] });
         } else {

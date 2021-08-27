@@ -12,11 +12,8 @@ export const command: Command = {
         let selectedPermissions = args[0];
         let permscope: string; 
 
-        if (!selectedPermissions) {
-            permscope = `https://discord.com/oauth2/authorize?client_id=873999791430967296&scope=bot&permissions=${defaultPermission}`;
-        } else {
-            permscope = `https://discord.com/oauth2/authorize?client_id=873999791430967296&scope=bot&permissions=${selectedPermissions}`
-        }
+        if (!selectedPermissions) permscope = `https://discord.com/api/oauth2/authorize?client_id=873999791430967296&permissions=${defaultPermission}&redirect_uri=https%3A%2F%2Fmerytek.github.io%2FGimli-bot%2Fcallback&scope=bot`;
+        else permscope = `https://discord.com/api/oauth2/authorize?client_id=873999791430967296&permissions=${selectedPermissions}&redirect_uri=https%3A%2F%2Fmerytek.github.io%2FGimli-bot%2Fcallback&scope=bot`;
 
         const inviteEmbed = new MessageEmbed()
 

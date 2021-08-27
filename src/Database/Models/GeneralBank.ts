@@ -2,7 +2,7 @@ import { Document, model, Schema } from "mongoose";
 
 export interface AllBank {
     bankAmount: number,
-    identifier: string
+    identifier: string,
 }
 
 export const AllBankAmount = new Schema({

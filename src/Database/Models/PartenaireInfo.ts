@@ -4,7 +4,7 @@ export interface Partenaire {
     name: string,
     description: string,
     date: string,
-    url: Array<Object>,
+    url: Array<{[key: string]: string}>,
     identifier: string,
     image: string
 }

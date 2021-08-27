@@ -16,8 +16,8 @@ export const event: Event = {
                 else i--;
                 const Guilds = client.guilds.cache.map(g => g.id).length;
                 const Users = client.guilds.cache.size;
-                let presence = [`à gérer l'argent de ${Users} utilisateurs dans ${Guilds} serveurs`,
-                `à gérer ${banks.bankAmount} devises`]
+                let presence = [`gérer l'argent de ${Users} utilisateurs dans ${Guilds} serveurs`,
+                `gérer ${banks.bankAmount} devises`]
                 client.user.setPresence({ activities: [{ name: presence[i] }], status: "dnd" });
             }, 20000)
         }
