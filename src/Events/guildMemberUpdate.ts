@@ -18,7 +18,7 @@ export const event: Event = {
             newRoles.push(newMember.roles.cache.map(r => r.id));
     
             await DbUser.updateOne({
-                role: DbUser.roles.concat(newRoles)
+                role: newRoles
             }).then(u => console.log(`Utilisateur modifié: ${u.username}`)).catch(e => console.error(e));
         } else return;
 
