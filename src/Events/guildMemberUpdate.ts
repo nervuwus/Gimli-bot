@@ -5,7 +5,7 @@ import userAccount from "../Database/Models/userAccount";
 export const event: Event = {
     name: 'guildMemberUpdate',
     run: async (client, oldMember: GuildMember, newMember: GuildMember) => {
-        const DbUser = await userAccount.findOne({ ID: oldMember.user.id });
+        const DbUser = await userAccount.findOne({ guildId: oldMember.guild.id, ID: oldMember.user.id });
 
         if (oldMember.user.username !== newMember.user.username) await DbUser.updateOne({ username: newMember.user.username })
         else return;
