@@ -1,21 +1,30 @@
-import { Document, model, Schema } from "mongoose";
-
-export interface Communism {
-    guildName: string;
-    guildId: string;
-    bankCentral: number;
-    givenPercent: {[key: string]: number};
-    contribution: number
-
-}
+import { model, Schema, Model } from "mongoose";
+import ICommunism from "../../Interfaces/models/Communism";
 
 export const CommunismConfig = new Schema({
-    guildName: String,
-    guildId: String,
-    bankCentral: Number,
-    givenPercent: Object,
-    contribution: Number
+    guildName: {
+        type: String,
+        required: true,
+    },
+    guildId: {
+        type: String,
+        required: true,
+    },
+    bankCentral: {
+        type: Number,
+        required: true,
+    },
+    givenPercent: {
+        type: Object,
+        required: true,
+    },
+    contribution: {
+        type: Number,
+        required: true,
+    }
 
-})
+});
 
-export default model<Communism>("CommunismConfig", CommunismConfig);
+const communism = model<ICommunism>("CommunismConfig", CommunismConfig);
+
+export { communism };

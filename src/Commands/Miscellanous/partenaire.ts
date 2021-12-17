@@ -3,16 +3,25 @@ import { MessageEmbed } from "discord.js";
 import partenaireInfo from "../../Database/Models/PartenaireInfo";
 
 export const command: Command = {
-    name: "partenaire",
-    description: "Une commande permettant de connaître tous nos partenaire ! C'est un moyen pour GImli de les remerciers :D",
-    aliases: [],
-    syntax: "partenaire [name]",
     categorie: "Miscellanous",
-    run: async (client, message, args) => {
+    data: {
+        name: "partenaire",
+        type: 1,
+        description: "Permet de voir tous mes amis et partenaires.",
+        options: [
+            {
+                name: "partenaire",
+                description: "le partenaire sur lequel tu veux des informations",
+                type: 3,
+                required: false
+            }
+        ]
+    },
+    async run(client, interaction) {
 
         const partenaireListe = await partenaireInfo.find({ identifier: "Gimli" });
         if (partenaireListe.length > 0) {
-            let PartenaireName = args[0];
+            let PartenaireName = interaction.options.getString("partenaire");
 
             if (!PartenaireName) {
                 const PartenaireListEmbed = new MessageEmbed()
@@ -23,9 +32,9 @@ export const command: Command = {
                     PartenaireListEmbed.setDescription(part.name);
                 });
 
-                message.channel.send({ embeds: [PartenaireListEmbed] });
+                interaction.reply({ embeds: [PartenaireListEmbed] });
             } else {
-                const selectedPartenaire = await partenaireInfo.findOne({ name: args[0] });
+                const selectedPartenaire = await partenaireInfo.findOne({ name: PartenaireName });
                 if (selectedPartenaire) {
                     const selectPartenaireInfo = new MessageEmbed()
 
@@ -64,8 +73,8 @@ export const command: Command = {
 
                     let option = JSON.parse(JSON.stringify(buttonList, null, '\t'));
 
-                    message.channel.send(option);
-                } else message.channel.send("Je n'ai aucune ami avec ce nom là !")
+                    interaction.reply(option);
+                } else interaction.reply("Je n'ai aucune ami avec ce nom là !")
             }
 
         } else {
@@ -75,9 +84,8 @@ export const command: Command = {
                 .setTitle("Et voilà ma liste d'amis mon petit gars !")
                 .setDescription("Elle est vide :/....Pour le moment !")
 
-            message.channel.send({ embeds: [PartenaireEmptyListEmbed] });
+            interaction.reply({ embeds: [PartenaireEmptyListEmbed] });
         }
-
     }
 
 }

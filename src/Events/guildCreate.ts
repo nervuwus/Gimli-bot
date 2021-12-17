@@ -1,6 +1,6 @@
 import { Event } from "../Interfaces";
 import GuildInfo from "../Database/Models/GuildInfo";
-import { Guild, Permissions } from "discord.js";
+import { Guild, Permissions, MessageEmbed } from "discord.js";
 
 export const event: Event = {
     name: "guildCreate",
@@ -19,11 +19,23 @@ export const event: Event = {
             guildName: guild.name,
             guildId: guild.id,
             ownerId: guild.ownerId,
-            prefix: "gi!",
             timestamp: guild.joinedAt,
             adminRolesId: adminRoles
         });
 
-        console.log(`J'ai rejoins une nouvelle guilde: ${guild.name}`)
+        const newJoinedGuild = new MessageEmbed()
+
+            .setColor("#D23A1F")
+            .setTitle(`Me voici dans la guilde: ${guild.name} !`)
+            .addField("Date d'arrivé:", guild.joinedAt.toString(), true)
+            .addField("Date de création:", guild.createdAt.toString(), true)
+            .addField("Nombre de membre:", guild.memberCount.toString(), true)
+            .setThumbnail(guild.iconURL({ dynamic: true }))
+
+        let personalGuild = guild.client.guilds.cache.get("874610021328101386");
+        let channelToSend = personalGuild.channels.cache.get("879391613791645807")
+
+        if (channelToSend.isText()) channelToSend.send({ embeds: [newJoinedGuild] });
+        
     }
 }

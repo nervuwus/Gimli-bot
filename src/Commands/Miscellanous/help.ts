@@ -1,55 +1,69 @@
 import { Command } from "../../Interfaces";
 import { MessageEmbed, Formatters } from "discord.js";
-import { readdirSync } from 'fs';
-import GuildInfo from "../../Database/Models/GuildInfo";
-import * as path from "path";
+import { readdirSync } from "fs";
+import { join } from "path";
 
 export const command: Command = {
-    name: "help",
-    description: "La sainte commande, qui permet d'afficher toute les commandes du bot.",
-    aliases: ["h"],
-    syntax: "help [command_name]",
     categorie: "Miscellanous",
-    run: async(client, message, args) => {
-        const folderPath = path.join(__dirname, "..");
-        const folderList = readdirSync(folderPath);
-        const serverPrefix = await GuildInfo.findOne({ guildId: message.guild.id });
-        let selectedCommand = args[0];
-
-        if (!selectedCommand) {
-            const helpList = new MessageEmbed()
-
-                .setColor("#D23A1F")
-                .setTitle(`Voici la liste de mes commande ${message.author.username}`)
-                .setDescription(`Une commande t'intéresse ? utilise : ${Formatters.inlineCode(`${serverPrefix.prefix}help <commmand_name>`)}`)
-                .setFooter("message d'aide envoyé", message.author.displayAvatarURL({ dynamic: true }))
-
-            for (const folder of folderList) {
-                helpList.addField(folder.toString(), client.commands.filter(cat => cat.categorie === folder).map(cmd => Formatters.inlineCode(cmd.name)).join(", "))
+    data: {
+        name: "help",
+        type: 1,
+        description: "Permet d'obtenir l'aide sur toute les commandes",
+        options: [
+            {
+                name: "commande",
+                description: "La commande sur laquelle tu veux des informations",
+                type: 3,
+                required: false
             }
+        ]
+    },
+    async run(client, interaction) {
 
-            message.channel.send({ embeds: [helpList] });
-        } else {
-            const pointedCommand = client.commands.get(selectedCommand);
+        const file = readdirSync(join(__dirname, "../../Commands"));
 
-            let displayAlias: string;
+        const commandName = interaction.options.getString("commande", false);
 
-            if (pointedCommand.aliases.length === 0) displayAlias = "Aucun alias pour cette commande";
-            else displayAlias = pointedCommand.aliases.toString();
+        if (!commandName) {
 
-            const pointedCommandHelpEmbed = new MessageEmbed()
+            const helpEmbed = new MessageEmbed()
 
                 .setColor("#D23A1F")
-                .setTitle(`Voici les informations de la commande : ${pointedCommand.name}`)
-                .setDescription("Je te préviens il y a 2 types d'arguments possible dans la syntaxe ceux-là [] et ceux-là <> les premiers ne sont pas obligatoires cependant les seconds sont obligatoires sinon la commande ne fonctionnera pas")
-                .addField("Description:", pointedCommand.description.toString())
-                .addField("Alias:", displayAlias)
-                .addField("Syntaxe:", pointedCommand.syntax.toString())
-                .setFooter("message d'aide envoyé", message.author.displayAvatarURL({ dynamic: true }))
+                .setTitle(`Voici la liste de mes commande ${interaction.user.username}`)
+                .setDescription(`C'est tout ce que je peux faire ! Si une commande t'intéresse utilise : ${Formatters.inlineCode("/help <commmande>")} et je te donnerais le plus d'info possible !\n\nPoint important l'ami si tu cherches les infos précise d'une commande. Je place ce panneau ⚠️ devant chaque argument de commande qui est obligatoire.`)
+                .setFooter("Un utilisateur a demandé de l'aide !", interaction.user.avatarURL())
                 .setTimestamp()
 
-            message.channel.send({ embeds: [pointedCommandHelpEmbed] });
+            for (const cats of file) {
+                helpEmbed.addField(`${cats}`, `${client.commands.filter(cat => cat.categorie === cats).map(cmd => cmd.data.name).join(', ')}`)
+            }
 
+            interaction.reply({ embeds: [helpEmbed] });
+        } else {
+            const command = client.commands.get(commandName);
+
+            if (!commandName) interaction.reply({content: "Désolé mais, la commande que tu cherches n'existe pas !"});
+            else {
+                const commandHelp = new MessageEmbed()
+
+                .setColor("#D23A1F")
+                .setTitle(`__${commandName}__`)
+                .setDescription(command.data.description)
+                .setFooter("Un utilisateu a demandé de l'aide sur une commande précise !", interaction.user.avatarURL())
+                .setTimestamp()
+
+
+                if (command.data.options) {
+                    for (const param of command.data.options) {
+                        if (param.required === true)
+                            commandHelp.addField(`⚠️ ${param.name}`, param.description, true)
+                        else commandHelp.addField(`${param.name}`, param.description, true)
+                    }
+
+                    interaction.reply({embeds: [commandHelp]});
+            }
+
+            } 
         }
     }
 }

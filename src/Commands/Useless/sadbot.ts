@@ -1,14 +1,16 @@
 import { Command } from "../../Interfaces";
 
 export const command: Command = {
-    name: "sadbot",
-    description: "Vous fera voir Gimli tout triste ;-;",
-    aliases: [],
-    syntax: "sadbot",
     categorie: "Useless",
-    run: async(client, message, args) => {
+    data: {
+        name: "sadbot",
+        type: 1,
+        description: "Si tu veux me voir triste",
+    },
+
+    async run(client, interaction) {
     
-        message.channel.send("TwT");
+        interaction.reply("TwT");
     
     }
 }

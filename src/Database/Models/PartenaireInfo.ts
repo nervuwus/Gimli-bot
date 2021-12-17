@@ -16,6 +16,8 @@ export const PartenaireInfo = new Schema({
     url: Array,
     identifier: String,
     image: String
-})
+});
 
-export default model<Partenaire>("PartenaireInfo", PartenaireInfo);
+const partner = model<Partenaire>("PartenaireInfo", PartenaireInfo);
+
+export { partner };

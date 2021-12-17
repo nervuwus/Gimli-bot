@@ -1,15 +1,15 @@
 import { Command } from "../../Interfaces";
-import { Formatters } from "discord.js";
 
 export const command: Command = {
-    name: "angrybot",
-    description: `Permet de ${Formatters.strikethrough("Jouer à angrybird avec le bot")} voir le bot énervé`,
-    aliases: [],
-    syntax: "angrybot",
     categorie: "Useless",
-    run: async(client, message, args) => {
+    data: {
+        name: "angrybot",
+        type: 1,
+        description: "Ça c'est pour me voir énervé !",
+    },
+    async run(client, interaction) {
     
-        message.channel.send(">:0");
+        interaction.reply(">:0");
     
     }
 }

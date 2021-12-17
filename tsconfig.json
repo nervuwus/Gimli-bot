@@ -1,20 +1,13 @@
 {
     "compilerOptions": {
-        "lib": ["ESNext"],
+        "target": "ES6",
         "module": "commonJS",
         "moduleResolution": "node",
-        "target": "ES6",
-        "outDir": "dist",
-        "sourceMap": true,
+        "rootDir": "./src",
+        "outDir": "./dist",
         "esModuleInterop": true,
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-        "allowSyntheticDefaultImports": true,
         "skipLibCheck": true,
-        "skipDefaultLibCheck": true,
-        "declaration": true,
+        "forceConsistentCasingInFileNames": true,
         "resolveJsonModule": true
     },
-    "include": ["src"],
-    "exclude": ["node_modules"]
 }

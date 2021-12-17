@@ -6,7 +6,7 @@ export const event: Event = {
     name: "guildMemberRemove",
     run: async (client, member: GuildMember) => {
         await userAccount.findOneAndDelete({ ID: member.user.id })
-        .then(u => console.log(`Utilisateur supprimé: ${u.username}`))
+        .then(() => console.log(`Utilisateur supprimé`))
         .catch(e => console.error(e));
     }
 }

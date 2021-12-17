@@ -5,7 +5,7 @@ export interface MoneyInfo {
     guildId: string;
     moneyNames: Array<string>;
     moneyValues: Array<object>;
-    symbols: Array<object>
+    symbol: Array<object>
 }
 
 export const MoneyConfig = new Schema({
@@ -17,4 +17,6 @@ export const MoneyConfig = new Schema({
 
 })
 
-export default model<MoneyInfo>("MoneyConfig", MoneyConfig);
+const moneyConfig = model<MoneyInfo>("MoneyConfig", MoneyConfig);
+
+export { moneyConfig };

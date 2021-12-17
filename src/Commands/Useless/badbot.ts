@@ -1,16 +1,18 @@
 import { Command } from "../../Interfaces";
 
 export const command: Command = {
-    name: "badbot",
-    description: "Une commande pour dire au bot qu'il est pas gentil...Mais faut pas faire ça c'est méchant",
-    aliases: [],
-    syntax: "badbot",
     categorie: "Useless",
-    run: async(client, message, args) => {
+    data: {
+        name: "badbot",
+        type: 1,
+        description: "Si tu es mécontant utilise cette commande !",
+    },
+    async run(client, interaction) {
     
-        message.channel.send("Mais je te permet pas ! >:0");
+        interaction.reply("Mais je te permet pas ! >:0");
     
     }
 }
 
 //inférence Bayesienne 
+// Je sais pas pourquoi j'ai mis inférence Bayesienne au dessus O_O

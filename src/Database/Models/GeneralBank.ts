@@ -1,4 +1,4 @@
-import { Document, model, Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 
 export interface AllBank {
     bankAmount: number,
@@ -6,8 +6,16 @@ export interface AllBank {
 }
 
 export const AllBankAmount = new Schema({
-    bankAmount: { type: Number, default: 0},
-    identifier: String
+    bankAmount: { 
+        type: Number, 
+        default: 0,
+        required: false 
+    },
+    identifier: {
+        type: String,
+    }
 })
 
-export default model<AllBank>("TotalBankAmount", AllBankAmount);
+const globalBank = model<AllBank>("TotalBankAmount", AllBankAmount);
+
+export { globalBank };

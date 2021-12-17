@@ -1,16 +1,12 @@
+import { CommandInteraction } from "discord.js";
 import Client from "../Client";
-import { Message } from "discord.js";
 
-interface Run {
-    (client: Client, message: Message, args: Array<string>);
-
-}
+interface execute {
+    (client: Client, interaction: CommandInteraction)
+};
 
 export interface Command {
-    name: string;
-    description?: string;
-    aliases?: Array<string>;
-    syntax: string;
-    categorie: string;
-    run: Run;
+    categorie: String,
+    data: any,
+    run: execute
 }

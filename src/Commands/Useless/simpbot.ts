@@ -3,13 +3,13 @@ import { Command } from "../../Interfaces";
 export const command: Command = {
     categorie: "Useless",
     data: {
-        name: "goodbot",
+        name: "simpbot",
         type: 1,
-        description: "permet de me montrer votre gratitude.",
+        description: "Pour simp sur ma personne",
     },
     async run(client, interaction) {
     
-        interaction.reply("Merci ! [^-^]");
+        interaction.reply(">///<");
     
     }
 }

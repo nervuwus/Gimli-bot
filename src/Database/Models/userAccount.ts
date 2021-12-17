@@ -20,4 +20,6 @@ export const UserAccount = new Schema({
     joinedAt: String
 })
 
-export default model<User>("UserAccount", UserAccount);
+const user = model<User>("UserAccount", UserAccount);
+
+export { user };

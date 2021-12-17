@@ -1,4 +1,4 @@
-import { Document, model, Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 
 export interface GuildEconomyInfo {
     guildName: string;
@@ -26,4 +26,6 @@ export const GuildEconomySettings = new Schema({
 
 })
 
-export default model<GuildEconomyInfo>("GuildEconomySettings", GuildEconomySettings);
+const guildEco = model<GuildEconomyInfo>("GuildEconomySettings", GuildEconomySettings);
+
+export { guildEco };

@@ -2,21 +2,22 @@ import { Command } from "../../Interfaces";
 import { MessageEmbed } from "discord.js";
 
 export const command: Command = {
-    name: "support",
-    description: "Permet d'accéder au serveur officiel de Gimli.",
-    aliases: [],
-    syntax: "support",
     categorie: "Miscellanous",
-    run: async (client, message, args) => {
+    data: {
+        name: "support",
+        type: 1,
+        description: "Le passe pour aller dans ma mine personnel",
+    },
+    async run(client, interaction) {
         const supportEmbed = new MessageEmbed()
 
             .setColor("#D23A1F")
-            .setTitle(`Voici le lien vers le serveur ${message.author.username}`)
-            .setDescription("En cliquant sur ce lien tu seras automatiquement redirigé vers mon serveur Discord là pù tu pourras parler à mon créateur et aux autres utilisateurs qui pourront t'aider à résoudre tes problèmes et répondre à tes questions")
-            .setFooter(`${message.author.username} a demandé le support`, message.author.avatarURL({ dynamic: true }))
+            .setTitle(`Voici le lien vers le serveur ${interaction.user.username}`)
+            .setDescription("En cliquant sur ce lien tu seras automatiquement redirigé vers mon serveur Discord là où tu pourras parler à mon créateur et aux autres utilisateurs qui pourront t'aider à résoudre tes problèmes et répondre à tes questions")
+            .setFooter(`${interaction.user.username} a demandé le support`, interaction.user.avatarURL({ dynamic: true }))
             .setTimestamp()
 
-        message.channel.send({
+        interaction.reply({
             embeds: [supportEmbed],
             components: [
                 {
