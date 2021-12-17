@@ -5,7 +5,7 @@ import { Command, Event, Config } from "../Interfaces";
 import ConfigJson from "../config.json";
 import * as path from "path";
 
-class ExtendedClient extends Client {
+export default class ExtendedClient extends Client {
 
     public commands: Collection<string, Command> = new Collection();
     public events: Collection<string, Event> = new Collection();
@@ -20,20 +20,14 @@ class ExtendedClient extends Client {
 
         //#region Commande handler
         readdirSync(commandPath).forEach(dir => {
-            const commands = readdirSync(`${commandPath}/${dir}`).filter(file => file.endsWith(".ts"));
+            const commandFile = readdirSync(`${commandPath}/${dir}`).filter(file => file.endsWith(".js"));
 
-            for (const file of commands) {
+            for (const file of commandFile) {
                 const { command } = require(`${commandPath}/${dir}/${file}`);
-                this.commands.set(command.name, command);
-                console.log(`command chargé: ${command.name}`);
-
-                if (command?.aliases.length !== 0) {
-                    command.aliases.forEach(alias => {
-                        this.aliases.set(alias, command);
-                    });
-                }
+                this.commands.set(command.data.name, command);
+                console.log(`command chargé: ${command.data.name}`);
             }
-        })
+        });
         //#endregion Commande handler
 
         //#region Event handler
@@ -48,5 +42,3 @@ class ExtendedClient extends Client {
     }
     
 }
-
-export default ExtendedClient;
