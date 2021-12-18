@@ -1,4 +1,4 @@
-import { model, Schema, Model } from "mongoose";
+import { model, Schema } from "mongoose";
 import ICommunism from "../../Interfaces/models/Communism";
 
 export const CommunismConfig = new Schema({
